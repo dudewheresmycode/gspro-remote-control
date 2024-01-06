@@ -1,0 +1,18 @@
+{
+  "name": "gspro-remote-control",
+  "version": "1.0.0",
+  "description": "A PC app to send keyboard commands to GSPro remotely.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "address": "^2.0.1",
+    "electron": "^28.1.1",
+    "express": "^4.18.2"
+  }
+}
