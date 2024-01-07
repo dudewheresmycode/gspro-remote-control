@@ -1,8 +1,9 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu, Tray } = require('electron')
-const path = require('node:path')
-const express = require('express')
-const { ip } = require('address')
+const { app, BrowserWindow, Menu, Tray } = require('electron');
+const path = require('node:path');
+
+const express = require('express');
+const { ip } = require('address');
 
 const runPowershell = require('./powershell')
 
@@ -16,13 +17,16 @@ server.get('/keyboard', async (req, res) => {
   if (!key) {
     return res.status(400).send('Missing key code!');
   }
-  console.log(`Sending key "${key}" to GSPro`);
-  if (process.platform === 'win32') {
+  try {
+    console.log(`Sending key "${key}" to GSPro`);
     await runPowershell('sendkey', GSPRO_WINDOW_TITLE, key);
-  } else {
-    console.log(`Unable to run powershell script on platform "${process.platform}"`);
+    res.sendStatus(201);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error.message);
   }
-  res.sendStatus(201);
+
+
 });
 
 server.listen(HTTP_PORT, () => console.log(`API server running at http://${ipAddress}:${HTTP_PORT}/`));
@@ -35,7 +39,7 @@ function getIcon() {
 };
 
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -103,7 +107,7 @@ app.whenReady().then(() => {
   if (app.dock) {
     app.dock.hide();
   }
-  
+
   // app.on('activate', function () {
   //   // On macOS it's common to re-create a window in the app when the
   //   // dock icon is clicked and there are no other windows open.
@@ -116,9 +120,9 @@ app.whenReady().then(() => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', function () {
   // if (process.platform === 'darwin') {
-    if (app.dock) {
-      app.dock.hide();
-    }
+  if (app.dock) {
+    app.dock.hide();
+  }
   // }
 })
 

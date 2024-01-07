@@ -1,6 +1,8 @@
-param($window, $key)
+param([string]$window, [string]$key)
 
-$wshell = New-Object -ComObject wscript.shell;
+$wshell = New-Object -ComObject wscript.shell
+Write-Output "Activating window: $($window)"
 $wshell.AppActivate($window)
-Sleep 1
+
+Write-Output "Sending key: $($key)"
 $wshell.SendKeys($key)
